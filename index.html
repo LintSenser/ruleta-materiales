@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ruleta de Materiales</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        .roulette {
+            margin-top: 20px;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .probabilities {
+            text-align: left;
+            margin-top: 20px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Ruleta de Materiales</h1>
+    <button onclick="spinRoulette()">Girar Ruleta</button>
+    <div class="roulette" id="result"></div>
+    
+    <div class="probabilities">
+        <h2>Probabilidades</h2>
+        <ul>
+            <li>Perla marina - 9.09%</li>
+            <li>Roca maldita - 9.09%</li>
+            <li>Yerba encendida - 4.55%</li>
+            <li>Arena de cuarzo - 2.27%</li>
+            <li>Agua electrificada - 2.27%</li>
+            <li>Primordita - 27.27%</li>
+            <li>Deshechos - 45.45%</li>
+        </ul>
+    </div>
+
+    <script>
+        function spinRoulette() {
+            const items = [
+                {name: 'Perla marina', weight: 10},
+                {name: 'Roca maldita', weight: 10},
+                {name: 'Yerba encendida', weight: 5},
+                {name: 'Arena de cuarzo', weight: 2.5},
+                {name: 'Agua electrificada', weight: 2.5},
+                {name: 'Primordita', weight: 30},
+                {name: 'Deshechos', weight: 50}
+            ];
+
+            let totalWeight = items.reduce((sum, item) => sum + item.weight, 0);
+            let randomNum = Math.random() * totalWeight;
+
+            for (let item of items) {
+                if (randomNum < item.weight) {
+                    document.getElementById('result').innerText = 'Resultado: ' + item.name;
+                    return;
+                }
+                randomNum -= item.weight;
+            }
+        }
+    </script>
+</body>
+</html>
