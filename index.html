@@ -6,17 +6,19 @@
     <title>Ruleta de Materiales</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             text-align: center;
             margin: 50px;
-            background-color: #f4f4f4;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            color: #fff;
         }
         .roulette {
             margin-top: 20px;
             padding: 20px;
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.9);
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            color: #333;
         }
         .results {
             margin-top: 20px;
@@ -26,34 +28,43 @@
             text-align: left;
             margin-top: 20px;
             display: inline-block;
-            background-color: #fff;
+            background-color: rgba(255, 255, 255, 0.9);
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            color: #333;
         }
         button {
-            padding: 10px 20px;
-            font-size: 16px;
-            background-color: #28a745;
+            padding: 15px 30px;
+            font-size: 18px;
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 30px;
             cursor: pointer;
+            transition: 0.3s;
         }
         button:hover {
-            background-color: #218838;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3);
+            transform: scale(1.05);
+        }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: none;
         }
     </style>
 </head>
 <body>
-    <h1>Ruleta de Materiales</h1>
+    <h1>🎰 Ruleta de Materiales 🎰</h1>
     <label for="num-spins">Número de tiradas:</label>
     <input type="number" id="num-spins" value="1" min="1">
     <button onclick="spinRoulette()">Girar Ruleta</button>
     <div class="roulette" id="result"></div>
     
     <div class="probabilities">
-        <h2>Probabilidades</h2>
+        <h2>📊 Probabilidades</h2>
         <ul>
             <li>Perla marina - 9.09%</li>
             <li>Roca maldita - 9.09%</li>
@@ -79,20 +90,26 @@
 
             let totalWeight = items.reduce((sum, item) => sum + item.weight, 0);
             let numSpins = document.getElementById('num-spins').value;
-            let results = [];
+            let resultsCount = {};
 
             for (let i = 0; i < numSpins; i++) {
                 let randomNum = Math.random() * totalWeight;
                 for (let item of items) {
                     if (randomNum < item.weight) {
-                        results.push(item.name);
+                        resultsCount[item.name] = (resultsCount[item.name] || 0) + 1;
                         break;
                     }
                     randomNum -= item.weight;
                 }
             }
 
-            document.getElementById('result').innerText = 'Resultado: ' + results.join(', ');
+            let resultText = '<h3>Resultado:</h3><ul>';
+            for (const [key, value] of Object.entries(resultsCount)) {
+                resultText += `<li>${key}: ${value}</li>`;
+            }
+            resultText += '</ul>';
+
+            document.getElementById('result').innerHTML = resultText;
         }
     </script>
 </body>
