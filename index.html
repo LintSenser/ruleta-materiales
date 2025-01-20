@@ -9,22 +9,46 @@
             font-family: Arial, sans-serif;
             text-align: center;
             margin: 50px;
+            background-color: #f4f4f4;
         }
         .roulette {
             margin-top: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
         .results {
             margin-top: 20px;
+            font-weight: bold;
         }
         .probabilities {
             text-align: left;
             margin-top: 20px;
             display: inline-block;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
         }
     </style>
 </head>
 <body>
     <h1>Ruleta de Materiales</h1>
+    <label for="num-spins">Número de tiradas:</label>
+    <input type="number" id="num-spins" value="1" min="1">
     <button onclick="spinRoulette()">Girar Ruleta</button>
     <div class="roulette" id="result"></div>
     
@@ -54,15 +78,21 @@
             ];
 
             let totalWeight = items.reduce((sum, item) => sum + item.weight, 0);
-            let randomNum = Math.random() * totalWeight;
+            let numSpins = document.getElementById('num-spins').value;
+            let results = [];
 
-            for (let item of items) {
-                if (randomNum < item.weight) {
-                    document.getElementById('result').innerText = 'Resultado: ' + item.name;
-                    return;
+            for (let i = 0; i < numSpins; i++) {
+                let randomNum = Math.random() * totalWeight;
+                for (let item of items) {
+                    if (randomNum < item.weight) {
+                        results.push(item.name);
+                        break;
+                    }
+                    randomNum -= item.weight;
                 }
-                randomNum -= item.weight;
             }
+
+            document.getElementById('result').innerText = 'Resultado: ' + results.join(', ');
         }
     </script>
 </body>
